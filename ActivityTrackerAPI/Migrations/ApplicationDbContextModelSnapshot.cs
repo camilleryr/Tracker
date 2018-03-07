@@ -24,14 +24,14 @@ namespace ActivityTrackerAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ActivityTypeId");
+                    b.Property<int?>("ActivityTypeId");
 
-                    b.Property<int>("Distance");
+                    b.Property<double>("Distance");
 
                     b.Property<string>("FirebaseLocation")
                         .IsRequired();
 
-                    b.Property<int>("Pace");
+                    b.Property<double>("Pace");
 
                     b.Property<DateTime>("StartTime");
 
@@ -75,8 +75,7 @@ namespace ActivityTrackerAPI.Migrations
                 {
                     b.HasOne("TrackerAPI.Models.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("ActivityTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActivityTypeId");
                 });
 
             modelBuilder.Entity("TrackerAPI.Models.Note", b =>

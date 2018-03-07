@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ActivityTrackerAPI.Migrations
 {
-    public partial class InitialBuild : Migration
+    public partial class InitialBuild2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,10 +27,10 @@ namespace ActivityTrackerAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ActivityTypeId = table.Column<int>(nullable: false),
-                    Distance = table.Column<int>(nullable: false),
+                    ActivityTypeId = table.Column<int>(nullable: true),
+                    Distance = table.Column<double>(nullable: false),
                     FirebaseLocation = table.Column<string>(nullable: false),
-                    Pace = table.Column<int>(nullable: false),
+                    Pace = table.Column<double>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -41,7 +41,7 @@ namespace ActivityTrackerAPI.Migrations
                         column: x => x.ActivityTypeId,
                         principalTable: "ActivityType",
                         principalColumn: "ActivityTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

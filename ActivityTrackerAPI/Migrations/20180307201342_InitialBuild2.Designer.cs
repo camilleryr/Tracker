@@ -11,8 +11,8 @@ using TrackerAPI.Data;
 namespace ActivityTrackerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180306215634_InitialBuild")]
-    partial class InitialBuild
+    [Migration("20180307201342_InitialBuild2")]
+    partial class InitialBuild2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,14 +25,14 @@ namespace ActivityTrackerAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ActivityTypeId");
+                    b.Property<int?>("ActivityTypeId");
 
-                    b.Property<int>("Distance");
+                    b.Property<double>("Distance");
 
                     b.Property<string>("FirebaseLocation")
                         .IsRequired();
 
-                    b.Property<int>("Pace");
+                    b.Property<double>("Pace");
 
                     b.Property<DateTime>("StartTime");
 
@@ -76,8 +76,7 @@ namespace ActivityTrackerAPI.Migrations
                 {
                     b.HasOne("TrackerAPI.Models.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("ActivityTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActivityTypeId");
                 });
 
             modelBuilder.Entity("TrackerAPI.Models.Note", b =>

@@ -11,8 +11,8 @@ using TrackerAPI.Data;
 namespace ActivityTrackerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180307201342_InitialBuild2")]
-    partial class InitialBuild2
+    [Migration("20180312192552_NewInitialBuild")]
+    partial class NewInitialBuild
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,8 @@ namespace ActivityTrackerAPI.Migrations
                     b.Property<int>("ActivityTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.HasKey("ActivityTypeId");
 

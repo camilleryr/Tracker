@@ -10,7 +10,7 @@ namespace TrackerAPI.Models
         public int ActivityTypeId { get; set; }
 
         [Required]
-        public int Description { get; set; }
+        public string Description { get; set; }
 
         ICollection<Activity> Activities { get; set; }
     }

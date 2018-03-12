@@ -47,7 +47,8 @@ namespace ActivityTrackerAPI.Migrations
                     b.Property<int>("ActivityTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.HasKey("ActivityTypeId");
 

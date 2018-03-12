@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ActivityTrackerAPI.Migrations
 {
-    public partial class InitialBuild2 : Migration
+    public partial class NewInitialBuild : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace ActivityTrackerAPI.Migrations
                 {
                     ActivityTypeId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<int>(nullable: false)
+                    Description = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

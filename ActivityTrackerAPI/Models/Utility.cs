@@ -31,8 +31,12 @@ namespace ActivityTrackerAPI.Models
 
         public static double GetPace(GeoLocation[] geoLocations, double distance)
         {
-            return distance /
-                (double)(geoLocations[0].timestamp - (geoLocations[geoLocations.Length - 1].timestamp) / 3600000);
+            double time1 = (double)geoLocations[0].timestamp;
+            double time2 = (double)(geoLocations[geoLocations.Length - 1].timestamp);
+            double time3 = time1 - time2;
+            double time = time3 / 3600000;
+            return distance / time;
+                
         }
 
         public static string GetFirebaseLocation(byte[] responseByteArray)

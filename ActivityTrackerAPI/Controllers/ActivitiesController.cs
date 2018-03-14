@@ -106,7 +106,7 @@ namespace ActivityTrackerAPI.Controllers
             {
                 Distance = distance,
                 Pace = Utility.GetPace(geoLocations, distance),
-                StartTime = new DateTime((long)geoLocations[0].timestamp),
+                StartTime = new DateTime(1970, 01, 01).AddMilliseconds((long)geoLocations[0].timestamp),
                 FirebaseLocation = Utility.GetFirebaseLocation(responseByteArray)
             };
 

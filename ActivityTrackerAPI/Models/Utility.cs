@@ -1,4 +1,6 @@
 ﻿using Geolocation;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +48,20 @@ namespace ActivityTrackerAPI.Models
             stream1.Position = 0;
             FirebaseResponse firebaseResponse = (FirebaseResponse)ser.ReadObject(stream1);
             return firebaseResponse.name;
+        }
+
+        public static List<FirebaseGeoCordObject> ConvertFirebaseResponse(string responseString)
+        {
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(responseString);
+            var list = new List<FirebaseGeoCordObject>();
+            foreach (var itemDynamic in data)
+            {
+                string key = ((JProperty)itemDynamic).Name;
+                GeoLocation[] value = JsonConvert.DeserializeObject<GeoLocation[]>(((JProperty)itemDynamic).Value.ToString());
+                list.Add(new FirebaseGeoCordObject(key, value));
+            }
+
+            return list;
         }
     }
 }

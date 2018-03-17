@@ -90,6 +90,51 @@ namespace ActivityTrackerAPI.Controllers
             return NoContent();
         }
 
+        // POST: api/Activities/Load
+        [HttpPost("{id}")]
+        public async Task<IActionResult> PostActivity([FromRoute] string Id)
+        {
+            if(Id != "load")
+            {
+                return NotFound();
+            }
+
+            var response = await client.GetAsync("https://trackmyrun-41804.firebaseio.com/.json");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            List<FirebaseGeoCordObject> FBGeoCordResponse = Utility.ConvertFirebaseResponse(responseString);
+
+
+            FBGeoCordResponse.ForEach(entry =>
+            {
+                GeoLocation[] geoLocations = entry.value;
+
+                double distance = Utility.GetDistance(geoLocations);
+
+                Activity activity = new Activity
+                {
+                    Distance = distance,
+                    Pace = Utility.GetPace(geoLocations, distance),
+                    StartTime = new DateTime(1970, 01, 01).AddMilliseconds((long)geoLocations[0].timestamp),
+                    FirebaseLocation = entry.key
+                };
+
+
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
+
+                _context.Activity.Add(activity);
+            });
+
+            
+            await _context.SaveChangesAsync();
+
+            //return NoContent();
+            return Ok();
+        }
+
         // POST: api/Activities
         [HttpPost]
         public async Task<IActionResult> PostActivity([FromBody] GeoLocation[] geoLocations)

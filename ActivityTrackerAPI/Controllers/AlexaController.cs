@@ -25,7 +25,10 @@ namespace ActivityTrackerAPI.Controllers
         public string Get()
         {
             Activity LatestActivity = _context.Activity.OrderBy(x => x.StartTime).Last();
-            return  $"Chris' last run was on {LatestActivity.StartTime}, was {LatestActivity.Distance} miles and took {(LatestActivity.Distance / LatestActivity.Pace) * 60} minutes";
+            double Time = (LatestActivity.Distance / LatestActivity.Pace) * 60;
+            int NumberOfMinutes = (int)Math.Floor(Time);
+            int NumberOfSeconds = (int)Math.Round((Time - Math.Truncate(Time))*60);
+            return $"Chris' last run was on {LatestActivity.StartTime.ToString("MMMM dd, yyyy")}, was {LatestActivity.Distance.ToString("#.##")} miles and took {NumberOfMinutes} minutes and {NumberOfSeconds} seconds";
         }
 
     }

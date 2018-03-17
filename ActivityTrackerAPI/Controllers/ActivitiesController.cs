@@ -183,6 +183,8 @@ namespace ActivityTrackerAPI.Controllers
                 return NotFound();
             }
 
+            await client.DeleteAsync($"https://trackmyrun-41804.firebaseio.com/{activity.FirebaseLocation}.json");
+
             _context.Activity.Remove(activity);
             await _context.SaveChangesAsync();
 

@@ -20,15 +20,36 @@ namespace ActivityTrackerAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Alexa
-        [HttpGet]
-        public string Get()
+        private string FormattedResponse(Activity activity, string qualifier)
         {
-            Activity LatestActivity = _context.Activity.OrderBy(x => x.StartTime).Last();
-            double Time = (LatestActivity.Distance / LatestActivity.Pace) * 60;
+            double Time = (activity.Distance / activity.Pace) * 60;
             int NumberOfMinutes = (int)Math.Floor(Time);
-            int NumberOfSeconds = (int)Math.Round((Time - Math.Truncate(Time))*60);
-            return $"Chris' last run was on {LatestActivity.StartTime.ToString("MMMM dd, yyyy")}, was {LatestActivity.Distance.ToString("#.##")} miles and took {NumberOfMinutes} minutes and {NumberOfSeconds} seconds";
+            int NumberOfSeconds = (int)Math.Round((Time - Math.Truncate(Time)) * 60);
+            return $"Chris' {qualifier} run was on {activity.StartTime.ToString("MMMM dd, yyyy")}, was {activity.Distance.ToString("#.##")} miles and took {NumberOfMinutes} minutes and {NumberOfSeconds} seconds";
+        }
+
+        // GET: api/Alexa/{Id}
+        [HttpGet("{Id}")]
+        public string Get([FromRoute] string Id)
+        {
+            Activity SelectedActivity;
+            
+            switch(Id.ToLower())
+            {
+                case "latest":
+                    SelectedActivity = _context.Activity.OrderBy(x => x.StartTime).Last();
+                    break;
+                case "fastest":
+                    SelectedActivity = _context.Activity.OrderBy(x => x.Pace).Last();
+                    break;
+                case "longest":
+                    SelectedActivity = _context.Activity.OrderBy(x => x.Pace).Last();
+                    break;
+                default:
+                    return "That was not a valid endpoint";
+            }
+
+            return FormattedResponse(SelectedActivity, Id);
         }
 
     }

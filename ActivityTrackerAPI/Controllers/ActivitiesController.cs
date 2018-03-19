@@ -91,7 +91,7 @@ namespace ActivityTrackerAPI.Controllers
         }
 
         // POST: api/Activities/Load
-        [HttpPost("{id}")]
+        [HttpPost("{Id}")]
         public async Task<IActionResult> PostActivity([FromRoute] string Id)
         {
             if(Id != "load")
@@ -104,8 +104,9 @@ namespace ActivityTrackerAPI.Controllers
 
             List<FirebaseGeoCordObject> FBGeoCordResponse = Utility.ConvertFirebaseResponse(responseString);
 
-
-            FBGeoCordResponse.ForEach(entry =>
+            List<string> ListOfFirebaseLocationsInDB = _context.Activity.Select(x => x.FirebaseLocation).ToList();
+            
+            FBGeoCordResponse.Where(x => !ListOfFirebaseLocationsInDB.Contains(x.key)).ToList().ForEach(entry =>
             {
                 GeoLocation[] geoLocations = entry.value;
 

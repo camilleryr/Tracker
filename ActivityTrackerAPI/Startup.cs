@@ -19,6 +19,7 @@ namespace TrackerAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             // TODO: store connection string in a secure place
             string connection = "Data Source=ActivityTrackerDB.db";
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection));
@@ -32,6 +33,13 @@ namespace TrackerAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:3000", "http://localhost:8080")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials()
+                );
 
             app.UseMvc();
         }

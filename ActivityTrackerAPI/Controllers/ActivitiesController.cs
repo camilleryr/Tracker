@@ -99,7 +99,7 @@ namespace ActivityTrackerAPI.Controllers
                 return NotFound();
             }
 
-            var response = await client.GetAsync("https://trackmyrun-restore.firebaseio.com/.json");
+            var response = await client.GetAsync("https://trackmyrun-41804.firebaseio.com/.json");
             var responseString = await response.Content.ReadAsStringAsync();
 
             List<FirebaseGeoCordObject> FBGeoCordResponse = Utility.ConvertFirebaseResponse(responseString);
